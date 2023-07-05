@@ -1,45 +1,80 @@
 let buttonColours = ["green","red","yellow","blue"];
-let randomChosenColour = buttonColours[nextSequence()];
-let gamePattern = [randomChosenColour];
-
-$(".btn").click(function(event){
-    console.log(event.target.id);
-    $("#" + event.target.id).fadeOut(100).fadeIn(100);
-    switch (event.target.id){
-        case "green":
-            let greenSound = new Audio('sounds/green.mp3');
-                greenSound.play();
-        break;
-        
-        case "red":
-            let redSound = new Audio('sounds/red.mp3');
-                redSound.play();
-        break;
-
-        case "yellow":
-            let yellowSound = new Audio('sounds/yellow.mp3');
-                yellowSound.play();
-        break;
-
-        case "blue":
-            let blueSound = new Audio('sounds/blue.mp3');
-                blueSound.play();
-        break;
-    }
+let userClickedPattern = [];
+let randomChosenColour
+let gamePattern = [];
+let userChosenColour
+let level = 0;
 
 
+
+$(document).one("keypress", function(){
+    $("h1").text("level " + level);
+    randomChosenColour = buttonColours[nextSequence()];
+    animatedPress(randomChosenColour);
+    gamePattern = [];
+    userClickedPattern = [];
+
+    console.log(gamePattern);
+
+    return (gamePattern);
+});
+
+gamePattern.push(randomChosenColour);
+
+$(".btn").click(function (event){
+    
+    userChosenColour = event.target.id;
+    userClickedPattern.push(userChosenColour);
+    
+    presentation (userChosenColour);
+
+    console.log(userClickedPattern);
+
+    return (userClickedPattern);
 });
 
 
 
 
-$("#"+randomChosenColour);
+
+
+
+
+
+
+
+
+function presentation(color){
+    animatedPress(color);
+    $("#" + color).fadeOut(100).fadeIn(100);
+    
+    console.log("clicked");
+    let gameSound = new Audio('sounds/'+ color + '.mp3');
+        gameSound.play();
+}
+
+function animatedPress(currentColour){
+    $("." + currentColour).click(function(){
+        console.log("anipress");
+        $("." + currentColour).addClass("pressed");
+    })
+    setTimeout(function() {
+        $("." + currentColour).removeClass("pressed");
+    }, 100);
+}
 
 function nextSequence(){
+    level++;
+    $("h1").text("level " + level);
     let randomNumber = Math.floor(Math.random()*4);
     console.log(randomNumber);
     return randomNumber;
 }
 
-console.log(randomChosenColour);
-console.log(gamePattern);
+
+
+
+
+
+// console.log(randomChosenColour);
+// console.log(gamePattern);
