@@ -92,10 +92,11 @@ function checkAnswer(currentLevel){
 }
 
 function startOver(){
-    level = 0;
-    gamePattern=[];
-    userClickedPattern=[];
+
     $(document).one("keydown", function(){
+        level = 0;
+        gamePattern=[];
+        userClickedPattern=[];
         nextSequence();
         
         
